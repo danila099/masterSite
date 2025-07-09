@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Создание мастера{% endblock %}
+
+{% block content %}
+<div class="auth-form" style="max-width: 500px;">
+    <h2>Создание мастера</h2>
+    <form method="post">
+        <label for="name">Имя мастера</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="description">Описание мастера</label>
+        <input type="text" id="description" name="description" required>
+        
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #e5e7eb;">
+        <h3 style="margin-bottom: 15px; color: #2563eb;">Услуги мастера</h3>
+        
+        <div id="services-container">
+            <div class="service-item">
+                <label for="service_title_1">Название услуги</label>
+                <input type="text" id="service_title_1" name="service_titles[]" required>
+                
+                <label for="service_desc_1">Описание услуги</label>
+                <input type="text" id="service_desc_1" name="service_descriptions[]" required>
+                
+                <label for="service_image_1">Ссылка на фото</label>
+                <input type="url" id="service_image_1" name="service_images[]" required>
+                
+                <label for="service_price_1">Цена</label>
+                <input type="text" id="service_price_1" name="service_prices[]" placeholder="например: 1000 рублей" required>
+            </div>
+        </div>
+        
+        <button type="button" onclick="addService()" style="background: #10b981; margin-top: 10px;">+ Добавить еще услугу</button>
+        
+        <button type="submit" style="margin-top: 20px;">Создать мастера</button>
+    </form>
+    <div class="auth-link">
+        <a href="/">Вернуться на главную</a>
+    </div>
+</div>
+
+<script>
+let serviceCount = 1;
+
+function addService() {
+    serviceCount++;
+    const container = document.getElementById('services-container');
+    const serviceDiv = document.createElement('div');
+    serviceDiv.className = 'service-item';
+    serviceDiv.style.borderTop = '1px solid #e5e7eb';
+    serviceDiv.style.paddingTop = '15px';
+    serviceDiv.style.marginTop = '15px';
+    
+    serviceDiv.innerHTML = `
+        <label for="service_title_${serviceCount}">Название услуги</label>
+        <input type="text" id="service_title_${serviceCount}" name="service_titles[]" required>
+        
+        <label for="service_desc_${serviceCount}">Описание услуги</label>
+        <input type="text" id="service_desc_${serviceCount}" name="service_descriptions[]" required>
+        
+        <label for="service_image_${serviceCount}">Ссылка на фото</label>
+        <input type="url" id="service_image_${serviceCount}" name="service_images[]" required>
+        
+        <label for="service_price_${serviceCount}">Цена</label>
+        <input type="text" id="service_price_${serviceCount}" name="service_prices[]" placeholder="например: 1000 рублей" required>
+        
+        <button type="button" onclick="removeService(this)" style="background: #ef4444; margin-top: 10px;">Удалить услугу</button>
+    `;
+    
+    container.appendChild(serviceDiv);
+}
+
+function removeService(button) {
+    button.parentElement.remove();
+}
+</script>
+{% endblock %}
+

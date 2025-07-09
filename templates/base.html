@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>{% block title %}Галерея компьютерных мастеров{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+            z-index: 100;
+            padding: 0;
+        }
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-menu {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-left: 16px;
+            background: transparent;
+            backdrop-filter: blur(10px);
+        }
+        .header-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .header-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+        }
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 40px 40px 40px;
+            margin-top: 100px;
+        }
+        h1, h2, h3 {
+            color: #2d2d2d;
+            margin-top: 0;
+        }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        /* Переопределяем стили для ссылок в хедере */
+        .header a {
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+        .header a:hover {
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+        ul.master-list {
+            list-style: none;
+            padding: 0;
+        }
+        ul.master-list li {
+            margin-bottom: 18px;
+            padding: 16px 20px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            transition: box-shadow 0.2s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+        ul.master-list li:hover {
+            box-shadow: 0 4px 16px rgba(59,130,246,0.08);
+        }
+        .master-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .master-info {
+            flex: 1;
+        }
+        .master-actions {
+            margin-left: 16px;
+        }
+        .delete-btn {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+        .service-item {
+            margin-bottom: 15px;
+        }
+        .service-item label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .service-item input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .service-item input:focus {
+            border-color: #2563eb;
+            outline: none;
+        }
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin-top: 24px;
+            padding: 0;
+        }
+        .work-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 18px 16px 16px 16px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+        .work-card img {
+            border-radius: 8px;
+            margin-bottom: 10px;
+            max-width: 100%;
+            height: 160px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.08);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #64748b;
+            font-size: 15px;
+        }
+        @media (max-width: 600px) {
+            .header-inner, .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            .header-title {
+                font-size: 1.2rem;
+            }
+            .header-menu {
+                gap: 12px;
+            }
+            .header-menu a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+        }
+        .auth-form {
+            max-width: 350px;
+            margin: 60px auto 0 auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(37,99,235,0.10);
+            padding: 32px 28px 24px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #2563eb;
+        }
+        .auth-form label {
+            margin-bottom: 6px;
+            color: #2d2d2d;
+            font-size: 15px;
+        }
+        .auth-form input[type="text"],
+        .auth-form input[type="password"] {
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .auth-form input[type="text"]:focus,
+        .auth-form input[type="password"]:focus {
+            border: 1.5px solid #2563eb;
+        }
+        .auth-form button {
+            background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .auth-form button:hover {
+            background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+        }
+        .auth-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+        .auth-link a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+        .master-form {
+            max-width: 400px;
+            margin: 60px auto 0 auto;
+            background: #fff;
+            border-radius: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <span class="header-title">Галерея компьютерных мастеров</span>
+            <div class="header-menu">
+                <a href="/">Главная</a>
+                <a href="/about">О нас</a>
+                <a href="/contacts">Контакты</a>
+                {% if username %}
+                    <a href="/profile">{{ username }}</a>
+                    <a href="/logout">Выйти</a>
+                {% else %}
+                    <a href="/login">Войти</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html> 

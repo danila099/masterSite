@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Профиль {{ username }} | Галерея компьютерных мастеров{% endblock %}
+
+{% block content %}
+<h1>Профиль</h1>
+<h2>{{ username }}</h2>
+<form method="post" action="/profile">
+</form>
+<div class="auth-link">
+    <a href="/createmaster">Создать мастера</a>
+</div>
+{% endblock %}
